@@ -1,0 +1,867 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Versa Commerce | AI Agents for E-commerce Growth</title>
+  <meta name="description" content="Versa Commerce uses AI agents to boost e-commerce sales, optimize marketing campaigns, and automate customer journeys.">
+  <style>
+    :root {
+      /* Paleta granate profesional */
+      --bg: #14040a;          /* fondo principal muy oscuro granate */
+      --bg-alt: #1f0a13;      /* fondo alterno */
+      --accent: #e11d48;      /* acento principal: rosado/granate intenso */
+      --accent-soft: rgba(225, 29, 72, 0.18);
+      --accent-alt: #f97316;  /* acento complementario cálido (naranja suave) */
+
+      --text: #fdf2f8;        /* texto principal (blanco rosado) */
+      --muted: #f9a8d4;       /* texto secundario (rosita tenue) */
+
+      --card: #1b0910;        /* fondo de tarjetas */
+      --border: #3f1726;      /* borde granate oscuro */
+      --danger: #ef4444;
+    }
+
+    * {
+      box-sizing: border-box;
+      margin: 0;
+      padding: 0;
+    }
+
+    body {
+      font-family: system-ui, -apple-system, BlinkMacSystemFont, "SF Pro Text", sans-serif;
+      background: radial-gradient(circle at top, #3b1020 0, #14040a 45%, #050109 100%);
+      color: var(--text);
+      line-height: 1.6;
+    }
+
+    a {
+      color: inherit;
+      text-decoration: none;
+    }
+
+    /* Clase para resaltar palabras clave */
+    .highlight {
+      background: linear-gradient(to right, rgba(225, 29, 72, 0.18), rgba(248, 113, 113, 0.1));
+      padding: 0 0.18rem;
+      border-radius: 0.25rem;
+      font-weight: 600;
+      color: #fee2e2;
+    }
+
+    header {
+      position: sticky;
+      top: 0;
+      z-index: 20;
+      backdrop-filter: blur(16px);
+      background: linear-gradient(to bottom, rgba(20, 4, 10, 0.96), rgba(20, 4, 10, 0.7), transparent);
+      border-bottom: 1px solid rgba(63, 23, 38, 0.9);
+    }
+
+    .nav {
+      max-width: 1120px;
+      margin: 0 auto;
+      padding: 0.9rem 1.2rem;
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      gap: 1.5rem;
+    }
+
+    .nav-left {
+      display: flex;
+      align-items: center;
+      gap: 0.8rem;
+    }
+
+    .logo-mark {
+      width: 32px;
+      height: 32px;
+      border-radius: 999px;
+      background: radial-gradient(circle at 30% 30%, #fb7185, #e11d48 50%, #7f1d1d 100%);
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      font-weight: 700;
+      font-size: 0.85rem;
+      box-shadow: 0 0 25px rgba(225, 29, 72, 0.9);
+    }
+
+    .brand-title {
+      font-weight: 600;
+      letter-spacing: 0.04em;
+      font-size: 1rem;
+    }
+
+    .brand-sub {
+      font-size: 0.75rem;
+      color: var(--muted);
+    }
+
+    .nav-links {
+      display: flex;
+      gap: 1.2rem;
+      font-size: 0.9rem;
+      color: var(--muted);
+    }
+
+    .nav-links a {
+      position: relative;
+      padding-bottom: 2px;
+    }
+
+    .nav-links a::after {
+      content: "";
+      position: absolute;
+      left: 0;
+      bottom: 0;
+      width: 0;
+      height: 2px;
+      background: linear-gradient(to right, #e11d48, #f97316);
+      transition: width 0.2s ease-out;
+    }
+
+    .nav-links a:hover::after {
+      width: 100%;
+    }
+
+    .nav-cta {
+      display: none;
+    }
+
+    @media (min-width: 768px) {
+      .nav-cta {
+        display: flex;
+      }
+    }
+
+    .btn {
+      display: inline-flex;
+      align-items: center;
+      justify-content: center;
+      padding: 0.55rem 1.2rem;
+      border-radius: 999px;
+      border: 1px solid transparent;
+      font-size: 0.85rem;
+      cursor: pointer;
+      transition: transform 0.12s ease-out, box-shadow 0.12s ease-out, border-color 0.12s ease-out, background 0.12s ease-out;
+      white-space: nowrap;
+    }
+
+    .btn-primary {
+      background: linear-gradient(to right, #e11d48, #f97316);
+      color: white;
+      box-shadow: 0 0 30px rgba(225, 29, 72, 0.8);
+    }
+
+    .btn-primary:hover {
+      transform: translateY(-1px);
+      box-shadow: 0 0 40px rgba(225, 29, 72, 1);
+    }
+
+    .btn-outline {
+      border-color: rgba(249, 168, 212, 0.5);
+      color: var(--muted);
+      background: transparent;
+    }
+
+    .btn-outline:hover {
+      border-color: rgba(254, 242, 242, 0.8);
+      color: var(--text);
+      background: rgba(31, 10, 19, 0.9);
+      transform: translateY(-1px);
+    }
+
+    main {
+      max-width: 1120px;
+      margin: 0 auto;
+      padding: 1.5rem 1.2rem 3rem;
+    }
+
+    /* Hero */
+    .hero {
+      display: grid;
+      grid-template-columns: 1fr;
+      gap: 1.8rem;
+      padding: 3rem 0 2rem;
+    }
+
+    @media (min-width: 900px) {
+      .hero {
+        grid-template-columns: minmax(0, 1.25fr) minmax(0, 1fr);
+        align-items: center;
+      }
+    }
+
+    .hero-kicker {
+      display: inline-flex;
+      align-items: center;
+      gap: 0.5rem;
+      padding: 0.2rem 0.55rem;
+      border-radius: 999px;
+      background: rgba(20, 4, 10, 0.9);
+      border: 1px solid rgba(63, 23, 38, 0.9);
+      font-size: 0.75rem;
+      color: var(--muted);
+      margin-bottom: 0.9rem;
+    }
+
+    .hero-kicker-dot {
+      width: 7px;
+      height: 7px;
+      border-radius: 999px;
+      background: #22c55e;
+      box-shadow: 0 0 10px #22c55e;
+    }
+
+    .hero-title {
+      font-size: clamp(2rem, 3vw + 1.2rem, 2.9rem);
+      line-height: 1.1;
+      letter-spacing: -0.04em;
+      margin-bottom: 0.9rem;
+    }
+
+    .hero-title span {
+      background: linear-gradient(to right, #fb7185, #fbbf24, #f97316);
+      -webkit-background-clip: text;
+      color: transparent;
+    }
+
+    .hero-subtitle {
+      font-size: 0.98rem;
+      color: var(--muted);
+      max-width: 32rem;
+      margin-bottom: 1.1rem;
+    }
+
+    .hero-metrics {
+      display: flex;
+      flex-wrap: wrap;
+      gap: 1.4rem;
+      margin-bottom: 1.2rem;
+      font-size: 0.85rem;
+    }
+
+    .hero-metric strong {
+      display: block;
+      font-size: 1.1rem;
+      color: #fee2e2;
+    }
+
+    .hero-cta-row {
+      display: flex;
+      flex-wrap: wrap;
+      gap: 0.8rem;
+      align-items: center;
+      margin-bottom: 1.1rem;
+    }
+
+    .hero-note {
+      font-size: 0.8rem;
+      color: var(--muted);
+    }
+
+    .hero-right {
+      position: relative;
+      min-height: 260px;
+    }
+
+    .hero-card {
+      position: relative;
+      border-radius: 1.3rem;
+      padding: 1.1rem 1.1rem 1rem;
+      background:
+        radial-gradient(circle at top left, rgba(248, 113, 113, 0.4), transparent 55%),
+        radial-gradient(circle at bottom right, rgba(251, 113, 133, 0.45), transparent 55%),
+        rgba(27, 9, 16, 0.97);
+      border: 1px solid rgba(248, 113, 165, 0.6);
+      box-shadow: 0 26px 60px rgba(20, 4, 10, 0.95);
+      max-width: 360px;
+      margin-left: auto;
+    }
+
+    .hero-card-header {
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      margin-bottom: 0.8rem;
+      font-size: 0.8rem;
+    }
+
+    .hero-card-badge {
+      padding: 0.15rem 0.6rem;
+      border-radius: 999px;
+      background: rgba(20, 4, 10, 0.9);
+      border: 1px solid rgba(248, 113, 165, 0.9);
+    }
+
+    .hero-card-pill {
+      display: inline-flex;
+      gap: 0.3rem;
+      align-items: center;
+      padding: 0.1rem 0.5rem;
+      border-radius: 999px;
+      background: rgba(20, 4, 10, 0.85);
+      border: 1px solid rgba(63, 23, 38, 0.9);
+      font-size: 0.72rem;
+      color: var(--muted);
+    }
+
+    .hero-card-grid {
+      display: grid;
+      grid-template-columns: 1.2fr 1.1fr;
+      gap: 0.75rem;
+      margin-top: 0.4rem;
+    }
+
+    .hero-card-box {
+      padding: 0.6rem;
+      border-radius: 0.9rem;
+      background: rgba(20, 4, 10, 0.95);
+      border: 1px solid rgba(63, 23, 38, 0.9);
+      font-size: 0.74rem;
+    }
+
+    .hero-card-box h4 {
+      font-size: 0.7rem;
+      text-transform: uppercase;
+      letter-spacing: 0.08em;
+      color: var(--muted);
+      margin-bottom: 0.2rem;
+    }
+
+    .hero-card-stat {
+      font-size: 1.2rem;
+      font-weight: 600;
+    }
+
+    .hero-card-stat span {
+      font-size: 0.7rem;
+      color: #22c55e;
+      margin-left: 0.2rem;
+    }
+
+    .hero-card-list {
+      list-style: none;
+      margin-top: 0.4rem;
+    }
+
+    .hero-card-list li {
+      display: flex;
+      justify-content: space-between;
+      margin-bottom: 0.15rem;
+    }
+
+    .hero-card-list span {
+      font-size: 0.7rem;
+      color: var(--muted);
+    }
+
+    .hero-card-list strong {
+      font-size: 0.75rem;
+      color: #fee2e2;
+    }
+
+    .hero-card-footer {
+      margin-top: 0.7rem;
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      font-size: 0.7rem;
+      color: var(--muted);
+    }
+
+    .hero-blur {
+      position: absolute;
+      inset: -40px;
+      background: radial-gradient(circle at top, rgba(248, 113, 165, 0.32), transparent 55%);
+      filter: blur(22px);
+      z-index: -1;
+    }
+
+    /* Sections */
+    section {
+      padding: 2.9rem 0 0;
+    }
+
+    .section-kicker {
+      font-size: 0.8rem;
+      text-transform: uppercase;
+      letter-spacing: 0.14em;
+      color: var(--muted);
+      margin-bottom: 0.4rem;
+    }
+
+    .section-title {
+      font-size: 1.5rem;
+      margin-bottom: 0.4rem;
+    }
+
+    .section-subtitle {
+      font-size: 0.95rem;
+      color: var(--muted);
+      max-width: 34rem;
+    }
+
+    .grid {
+      display: grid;
+      gap: 1.2rem;
+      margin-top: 1.2rem;
+    }
+
+    @media (min-width: 768px) {
+      .grid-3 {
+        grid-template-columns: repeat(3, minmax(0, 1fr));
+      }
+
+      .grid-2 {
+        grid-template-columns: repeat(2, minmax(0, 1fr));
+      }
+    }
+
+    .card {
+      background: rgba(27, 9, 16, 0.97);
+      border-radius: 1rem;
+      border: 1px solid var(--border);
+      padding: 1.1rem;
+      font-size: 0.9rem;
+    }
+
+    .card h3 {
+      font-size: 1rem;
+      margin-bottom: 0.4rem;
+    }
+
+    .card p {
+      font-size: 0.88rem;
+      color: var(--muted);
+    }
+
+    .tag-row {
+      display: flex;
+      flex-wrap: wrap;
+      gap: 0.35rem;
+      margin-top: 0.5rem;
+    }
+
+    .tag {
+      padding: 0.18rem 0.55rem;
+      border-radius: 999px;
+      background: rgba(20, 4, 10, 0.9);
+      border: 1px solid rgba(63, 23, 38, 0.9);
+      font-size: 0.72rem;
+      color: var(--muted);
+    }
+
+    .pill {
+      display: inline-flex;
+      align-items: center;
+      gap: 0.3rem;
+      font-size: 0.8rem;
+      color: var(--muted);
+      margin-top: 0.7rem;
+    }
+
+    .pill-dot {
+      width: 6px;
+      height: 6px;
+      border-radius: 999px;
+      background: #22c55e;
+    }
+
+    .steps {
+      counter-reset: step;
+    }
+
+    .step {
+      position: relative;
+      padding-left: 2rem;
+    }
+
+    .step::before {
+      counter-increment: step;
+      content: counter(step);
+      position: absolute;
+      left: 0;
+      top: 0.1rem;
+      width: 1.4rem;
+      height: 1.4rem;
+      border-radius: 999px;
+      border: 1px solid rgba(248, 113, 165, 0.9);
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      font-size: 0.8rem;
+      color: #fee2e2;
+      background: radial-gradient(circle at 30% 30%, rgba(248, 113, 165, 0.9), rgba(27, 9, 16, 0.95));
+    }
+
+    .step h3 {
+      margin-bottom: 0.25rem;
+    }
+
+    /* CTA section */
+    .cta {
+      margin-top: 3rem;
+      padding: 1.6rem 1.4rem;
+      border-radius: 1.3rem;
+      background:
+        radial-gradient(circle at top right, rgba(248, 113, 165, 0.38), transparent 55%),
+        radial-gradient(circle at bottom left, rgba(248, 113, 113, 0.35), transparent 55%),
+        rgba(27, 9, 16, 0.98);
+      border: 1px solid rgba(248, 113, 165, 0.7);
+      display: grid;
+      gap: 1rem;
+    }
+
+    @media (min-width: 768px) {
+      .cta {
+        grid-template-columns: 1.4fr 1fr;
+        align-items: center;
+      }
+    }
+
+    .cta-title {
+      font-size: 1.3rem;
+      margin-bottom: 0.3rem;
+    }
+
+    .cta-text {
+      font-size: 0.9rem;
+      color: var(--muted);
+      max-width: 520px;
+    }
+
+    .cta-right p {
+      font-size: 0.8rem;
+      color: var(--muted);
+      margin-top: 0.5rem;
+    }
+
+    footer {
+      border-top: 1px solid rgba(63, 23, 38, 0.9);
+      margin-top: 2.6rem;
+      padding-top: 1.3rem;
+      font-size: 0.78rem;
+      color: var(--muted);
+    }
+
+    footer .footer-row {
+      display: flex;
+      justify-content: space-between;
+      gap: 1rem;
+      flex-wrap: wrap;
+      padding-bottom: 1.2rem;
+    }
+
+    footer a {
+      text-decoration: underline;
+      text-decoration-style: dotted;
+      text-underline-offset: 3px;
+    }
+
+    /* Inputs formulario */
+    input, textarea {
+      padding: 0.55rem 0.7rem;
+      border-radius: 0.6rem;
+      border: 1px solid rgba(248, 113, 165, 0.6);
+      background: rgba(20, 4, 10, 0.95);
+      color: #fee2e2;
+      font-size: 0.85rem;
+    }
+
+    input::placeholder,
+    textarea::placeholder {
+      color: rgba(248, 187, 208, 0.8);
+    }
+  </style>
+</head>
+<body>
+  <header>
+    <nav class="nav">
+      <div class="nav-left">
+        <div class="logo-mark">VC</div>
+        <div>
+          <div class="brand-title">Versa Commerce</div>
+          <div class="brand-sub">AI Agents for E-commerce Growth</div>
+        </div>
+      </div>
+      <div class="nav-links">
+        <a href="#services">Services</a>
+        <a href="#how-it-works">How it works</a>
+        <a href="#benefits">Benefits</a>
+        <a href="top-50.html">Top 50 Products</a>
+      </div>
+      <div class="nav-cta">
+        <a href="#contact" class="btn btn-outline">Book a Call</a>
+      </div>
+    </nav>
+  </header>
+
+  <main>
+    <!-- HERO -->
+    <section class="hero">
+      <div>
+        <div class="hero-kicker">
+          <span class="hero-kicker-dot"></span>
+          <span class="highlight">AI-Driven Growth</span> for Modern E-commerce Brands
+        </div>
+        <h1 class="hero-title">
+          <span class="highlight">AI agents</span> that <span>multiply your sales</span> while you sleep.
+        </h1>
+        <p class="hero-subtitle">
+          Versa Commerce deploys <span class="highlight">specialized AI agents</span> to
+          <span class="highlight">boost your e-commerce sales</span>, optimize your traffic,
+          automate campaigns, and convert visitors into loyal customers
+          across Amazon, Rakuten, Temu and your own store.
+        </p>
+        <div class="hero-metrics">
+          <div class="hero-metric">
+            <strong>+32% uplift</strong>
+            Avg. revenue per visitor
+          </div>
+          <div class="hero-metric">
+            <strong>4x faster</strong>
+            Experiment & campaign testing
+          </div>
+          <div class="hero-metric">
+            <strong>24/7</strong>
+            AI agents monitoring performance
+          </div>
+        </div>
+        <div class="hero-cta-row">
+          <a href="#contact" class="btn btn-primary">Request a Strategy Session</a>
+          <a href="#services" class="btn btn-outline">Explore Services</a>
+        </div>
+        <p class="hero-note">
+          No code. No extra team. Plug our AI agents into your e-commerce stack and start seeing
+          results in weeks, not months.
+        </p>
+      </div>
+
+      <div class="hero-right">
+        <div class="hero-blur"></div>
+        <div class="hero-card">
+          <div class="hero-card-header">
+            <span class="hero-card-badge">AI Growth Console</span>
+            <span class="hero-card-pill">
+              <span class="hero-kicker-dot" style="width:6px;height:6px;"></span>
+              Live campaigns
+            </span>
+          </div>
+          <div class="hero-card-grid">
+            <div class="hero-card-box">
+              <h4>Revenue lift</h4>
+              <div class="hero-card-stat">
+                +27.8%
+                <span>vs last 30d</span>
+              </div>
+              <ul class="hero-card-list">
+                <li><span>Amazon</span><strong>+19.4%</strong></li>
+                <li><span>Rakuten</span><strong>+24.1%</strong></li>
+                <li><span>Temu</span><strong>+33.6%</strong></li>
+              </ul>
+            </div>
+            <div class="hero-card-box">
+              <h4>AI agents</h4>
+              <ul class="hero-card-list">
+                <li><span>Ad Optimizer</span><strong>Active</strong></li>
+                <li><span>Pricing Engine</span><strong>Live</strong></li>
+                <li><span>Retention Bot</span><strong>Scaling</strong></li>
+              </ul>
+            </div>
+          </div>
+          <div class="hero-card-footer">
+            <span>Next action: launch A/B test on top-50 listing</span>
+            <span>ETA: 18 min</span>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <!-- SERVICES -->
+    <section id="services">
+      <div class="section-kicker">Services</div>
+      <h2 class="section-title">
+        <span class="highlight">AI agents</span> designed for commerce, not demos.
+      </h2>
+      <p class="section-subtitle">
+        We connect, configure and train specialized AI agents on your real data to drive measurable outcomes:
+        more revenue, higher AOV, and lower acquisition costs.
+      </p>
+
+      <div class="grid grid-3">
+        <article class="card">
+          <h3>AI Commerce Strategist</h3>
+          <p>
+            An always-on <span class="highlight">AI strategist</span> that monitors your marketplaces and storefronts,
+            detects opportunities, and suggests concrete actions: new bundles, promos, upsells and cross-sells.
+          </p>
+          <div class="tag-row">
+            <span class="tag">Cross-selling</span>
+            <span class="tag">Bundles</span>
+            <span class="tag">Product mix</span>
+          </div>
+        </article>
+
+        <article class="card">
+          <h3>Ad & Funnel Optimizer</h3>
+          <p>
+            AI that continuously tests creatives, audiences, and landing pages, reallocating budget in real time
+            so your best-performing campaigns scale automatically.
+          </p>
+          <div class="tag-row">
+            <span class="tag">Meta & Google Ads</span>
+            <span class="tag">A/B testing</span>
+            <span class="tag">ROAS boost</span>
+          </div>
+        </article>
+
+        <article class="card">
+          <h3>Lifecycle & Retention Agent</h3>
+          <p>
+            Automated email, SMS and on-site flows that adapt to each customer journey: welcome, abandoned cart,
+            post-purchase, reactivation and VIP programs.
+          </p>
+          <div class="tag-row">
+            <span class="tag">Email & SMS</span>
+            <span class="tag">LTV increase</span>
+            <span class="tag">Segmentation</span>
+          </div>
+        </article>
+      </div>
+    </section>
+
+    <!-- HOW IT WORKS -->
+    <section id="how-it-works">
+      <div class="section-kicker">How it works</div>
+      <h2 class="section-title">
+        From audit to <span class="highlight">AI agents</span> in 3 weeks.
+      </h2>
+      <p class="section-subtitle">
+        We don’t just drop a chatbot on your site. We implement a system of coordinated agents that understand your products,
+        customers and channels.
+      </p>
+
+      <div class="grid grid-3 steps">
+        <article class="card step">
+          <h3>1. Diagnose & map opportunities</h3>
+          <p>
+            We analyze your Amazon, Rakuten, Temu and store data to detect friction, drop-off points and under-monetized traffic.
+          </p>
+          <div class="pill">
+            <span class="pill-dot"></span>
+            Data sources: analytics, ads, CRM, marketplace dashboards.
+          </div>
+        </article>
+
+        <article class="card step">
+          <h3>2. Deploy specialized AI agents</h3>
+          <p>
+            We configure the right set of agents (strategy, pricing, copy, creative, retention) and connect them to your stack.
+          </p>
+          <div class="pill">
+            <span class="pill-dot"></span>
+            Compatible with Shopify, WooCommerce, custom stores & marketplaces.
+          </div>
+        </article>
+
+        <article class="card step">
+          <h3>3. Optimize, scale, and report</h3>
+          <p>
+            Weekly iterations to refine prompts, rules and experiments—always tied to revenue, not vanity metrics.
+          </p>
+          <div class="pill">
+            <span class="pill-dot"></span>
+            Clear dashboards and reports you can share with your team.
+          </div>
+        </article>
+      </div>
+    </section>
+
+    <!-- BENEFITS -->
+    <section id="benefits">
+      <div class="section-kicker">Why Versa Commerce</div>
+      <h2 class="section-title">
+        <span class="highlight">Less guesswork.</span> More predictable growth.
+      </h2>
+      <p class="section-subtitle">
+        Whether you’re scaling a DTC brand or an omni-channel operation across Amazon, Rakuten and Temu,
+        our AI agents work as a force multiplier for your team.
+      </p>
+
+      <div class="grid grid-2">
+        <article class="card">
+          <h3>Aligned with your KPIs</h3>
+          <p>
+            Every agent is configured around your targets: revenue, ROAS, LTV, or margin. No generic “AI magic”.
+          </p>
+        </article>
+        <article class="card">
+          <h3>Human + AI, not AI alone</h3>
+          <p>
+            You keep strategic control while AI handles monitoring, suggestions and execution at scale.
+          </p>
+        </article>
+        <article class="card">
+          <h3>Marketplace-aware</h3>
+          <p>
+            We understand the real constraints of Amazon, Rakuten and Temu: policies, fees, competition and ad formats.
+          </p>
+        </article>
+        <article class="card">
+          <h3>Built to integrate</h3>
+          <p>
+            We plug into your current tools instead of forcing you into a new platform from scratch.
+          </p>
+        </article>
+      </div>
+    </section>
+
+    <!-- CTA / CONTACT -->
+    <section id="contact">
+      <div class="cta">
+        <div>
+          <h2 class="cta-title">
+            Ready to explore <span class="highlight">AI agents</span> for your e-commerce brand?
+          </h2>
+          <p class="cta-text">
+            Share a few details about your business, and we’ll respond with a short Loom video outlining
+            where AI agents can have the biggest impact on your funnels and marketplaces.
+          </p>
+        </div>
+        <div class="cta-right">
+          <!-- Puedes sustituir esto por un formulario real -->
+          <form>
+            <div style="display:flex; flex-direction:column; gap:0.5rem;">
+              <input type="text" name="name" placeholder="Your name" required>
+              <input type="email" name="email" placeholder="Work email" required>
+              <input type="text" name="store" placeholder="Main store / marketplace">
+              <textarea name="message" rows="3" placeholder="Tell us about your current challenges..."></textarea>
+              <button type="submit" class="btn btn-primary">Send request</button>
+            </div>
+          </form>
+          <p>
+            Or email us directly at <strong>contact@versa-commerce.com</strong>.
+          </p>
+        </div>
+      </div>
+    </section>
+
+    <footer>
+      <div class="footer-row">
+        <span>© <span id="year"></span> Versa Commerce. All rights reserved.</span>
+        <span>
+          <a href="#">Privacy</a> ·
+          <a href="#">Terms</a> ·
+          <a href="top-50.html">Top 50 Products</a>
+        </span>
+      </div>
+    </footer>
+  </main>
+
+  <script>
+    document.getElementById('year').textContent = new Date().getFullYear();
+  </script>
+</body>
+</html>
